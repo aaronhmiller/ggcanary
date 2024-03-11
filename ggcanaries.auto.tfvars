@@ -1,7 +1,6 @@
 users = {
-  ggtoken1 = {
-    tag_1  = "John Doe"
-    source = "email"
+  ux-validation-token = {
+    tag_1 = "John Smith"
+    source = "Slack"
   }
-  ggtoken2 = {}
 }

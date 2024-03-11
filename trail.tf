@@ -5,7 +5,7 @@ data "aws_caller_identity" "current" {}
 resource "aws_cloudtrail" "ggcanary_trail" { # ggignore-iac: GG_IAC_0027
   name                          = "${var.global_prefix}-trail"
   s3_bucket_name                = aws_s3_bucket.ggcanary_bucket.id
-  s3_key_prefix                 = "ggcanary"
+  s3_key_prefix                 = "ux-validation"
   include_global_service_events = true
   is_multi_region_trail         = true
   enable_log_file_validation    = true
@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "ggcanary_bucket" {
     actions = [
       "s3:PutObject"
     ]
-    resources = ["arn:aws:s3:::${var.global_prefix}-bucket/ggcanary/AWSLogs/${data.aws_caller_identity.current.account_id}/*"]
+    resources = ["arn:aws:s3:::${var.global_prefix}-bucket/ux-validation/AWSLogs/${data.aws_caller_identity.current.account_id}/*"]
     principals {
       type        = "Service"
       identifiers = ["cloudtrail.amazonaws.com"]

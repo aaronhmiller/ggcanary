@@ -2,7 +2,7 @@
 resource "aws_iam_user" "ggcanary_users" {
   for_each = var.users
   name     = "${var.global_prefix}_${each.key}"
-  path     = "/ggcanary/"
+  path     = "/ux-validation/"
   tags     = each.value
 }
 

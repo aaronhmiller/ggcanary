@@ -72,14 +72,14 @@ module "lambda_function" {
     get_object = {
       effect    = "Allow"
       actions   = ["s3:GetObject"]
-      resources = ["arn:aws:s3:::${aws_s3_bucket.ggcanary_bucket.bucket}/ggcanary/*"]
+      resources = ["arn:aws:s3:::${aws_s3_bucket.ggcanary_bucket.bucket}/ux-validation/*"]
     }
     list_user_tags = {
       effect = "Allow"
       actions = [
         "iam:ListUserTags",
       ]
-      resources = ["arn:aws:iam::${data.aws_caller_identity.current.id}:user/ggcanary/*"]
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.id}:user/ux-validation/*"]
     }
     ses_send_email = {
       effect = "Allow"
@@ -99,7 +99,7 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
   lambda_function {
     lambda_function_arn = module.lambda_function.lambda_function_arn
     events              = ["s3:ObjectCreated:*"]
-    filter_prefix       = "ggcanary/AWSLogs/"
+    filter_prefix       = "ux-validation/AWSLogs/"
     filter_suffix       = ".json.gz"
   }
   depends_on = [module.lambda_function]
