@@ -20,7 +20,7 @@ Deploying this project will:
 
 # Architecture
 
-![Architecture](file:///Users/amiller/Dropbox/code/github/ggcanary/canary-arch-tf.drawio--2-.png)
+![Architecture](canary-arch-tf.drawio--2-.png)
 
 **Terraform backend:** the user needs to define a set of variables in the `terraform.tfvars` file like the AWS profile and region to which it should deploy the project. This file also contains the parameters required to create the alerting service using AWS SES, SendGrid, or Slack. The user should also define an object in the `ggcanaries.auto.tfvars` file containing the AWS users (5,000 max) ggcanary will create before generating a secret key for each.
 
