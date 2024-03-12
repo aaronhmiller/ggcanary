@@ -1,6 +1,6 @@
 # Detecting intrusion with canary tokens
 
-## What is a canary token
+## What is a canary token?
 
 A canary token is a resource that is monitored for access or tampering. Usually, canary tokens come in the form of a URL, file, API key, or email, etc., and trigger alerts whenever someone (presumably an attacker) trips over them.
 
@@ -17,6 +17,16 @@ Deploying this project will:
 - create AWS credentials for their use as GitGuardian Canary Tokens. The users associated with these credentials do not have any permissions, so they cannot perform any action.
 - create the related AWS infrastructure required to store any activities related to these credentials with [AWS CloudTrail](https://aws.amazon.com/cloudtrail/) and [AWS S3](https://aws.amazon.com/s3/).
 - create the related AWS infrastructure required to send alerts when one of the tokens is tampered to different integration such as email, native webhook and Slack.
+
+# Architecture
+
+![Architecture](file:///Users/amiller/Dropbox/code/github/ggcanary/canary-arch-tf.drawio--2-.png)
+
+**Terraform backend:** the user needs to define a set of variables in the `terraform.tfvars` file like the AWS profile and region to which it should deploy the project. This file also contains the parameters required to create the alerting service using AWS SES, SendGrid, or Slack. The user should also define an object in the `ggcanaries.auto.tfvars` file containing the AWS users (5,000 max) ggcanary will create before generating a secret key for each.
+
+**AWS CloudTrail:** When an AWS honey token is tampered with, AWS CloudTrail logs the attempt and saves it to an S3 bucket. In turn, this triggers a call to a lambda function.
+
+**AWS Lambda:** When triggered, the serverless function will parse the log file in the S3 bucket, filter for activity on the canary tokens, and send an alert if applicable.
 
 # Project setup
 
